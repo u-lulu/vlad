@@ -45,8 +45,14 @@ async def context(ctx):
 	channel_id = ctx.channel.id
 	if channel_id in details_string:
 		msg = f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\n```v\n{details_string[channel_id]}```"
-		await ctx.respond(msg)
-		print(f"Sent context with length {len(msg)}")
+		if len(msg) > 2000:
+			with open("message.txt","w") as file:
+				file.write(details_string[channel_id])
+			await ctx.respond(f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send as a message. Please view the attached file.",file=discord.File('message.txt'))
+			os.remove('message.txt')
+		else:
+			await ctx.respond(msg)
+			print(f"Sent context with length {len(msg)}")
 	else:
 		await ctx.respond(f"No Combat Drill rolls recorded in this channel since <t:{boot_time}:R>.",ephemeral=True)
 
