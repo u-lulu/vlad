@@ -40,7 +40,7 @@ async def on_ready():
 	boot_time = int(time.time())
 	print(f"{bot.user} is ready and online!")
 
-@bot.command(description="Get the full context for the last Combat Drill roll in this channel")
+@bot.command(description="Traces all dice rolls for the last Combat Drill roll in this channel")
 async def context(ctx):
 	channel_id = ctx.channel.id
 	if channel_id in details_string:
@@ -50,7 +50,7 @@ async def context(ctx):
 				file.write(details_string[channel_id])
 			await ctx.respond(f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send. Please view the attached file.",file=discord.File('message.txt'))
 			os.remove('message.txt')
-            print(f"Sent context with length {details_string[channel_id]} as file")
+			print(f"Sent context with length {len(details_string[channel_id])} as file")
 		else:
 			await ctx.respond(msg)
 			print(f"Sent context with length {len(msg)}")
@@ -58,8 +58,8 @@ async def context(ctx):
 		await ctx.respond(f"No Combat Drill rolls recorded in this channel since <t:{boot_time}:R>.",ephemeral=True)
 
 @bot.command(description="Roll damage for Combat Drill")
-async def combat_drill(ctx, target_has_status: 
-	discord.Option(bool, "Mark TRUE if the target of the attack is Prone, Immobilized, or Stunned."), 
+async def combat_drill(ctx, 
+	target_has_status: discord.Option(bool, "Mark TRUE if the target of the attack is Prone, Immobilized, or Stunned."), 
 	crit: discord.Option(bool, "Mark TRUE if the roll to attack was a critical hit."), 
 	bonus_dice: discord.Option(int, "The amount of bonus dice applied to the attack roll *before* rolling.", required=False, default=0), 
 	bonus_flat: discord.Option(int,"Flat bonus damage applied to the attack roll *before* rolling.",required=False, default=0)):
@@ -172,7 +172,7 @@ async def combat_drill(ctx, target_has_status:
 	debug(f"Heat generated: {heat}", channel_id)
 	debug(f"Full damage: {full_total}", channel_id)
 	
-	message = f"**Combat Drill**\n⚔️ Kinetic: **{str(kinetic_total)}** `{str(kinetic)}`\n⚡ Energy: **{str(energy_total)}** `{str(energy)}`\n🎲 Bonus: **{str(bonus_total)}** `{str(bonus)}`\n🔥 Heat taken: **{str(heat)}**\n\n**Total damage: {str(full_total)}**"
+	message = f"**Combat Drill**\n🎯 Crit: **{yn(crit)}**\n💫 Status Effect: **{yn(target_has_status)}**\n🎲 Initial Bonus: **{bonus_dice}d6 + {bonus_flat}**\n\n⚔️ Kinetic: **{str(kinetic_total)}** `{str(kinetic)}`\n⚡ Energy: **{str(energy_total)}** `{str(energy)}`\n🎲 Bonus: **{str(bonus_total)}** `{str(bonus)}`\n🔥 Heat taken: **{str(heat)}**\n\n**Total damage: {str(full_total)}**"
 	sent_message = await ctx.respond(message)
 	sent_message = await sent_message.original_response()
 	
