@@ -50,6 +50,7 @@ async def context(ctx):
 				file.write(details_string[channel_id])
 			await ctx.respond(f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send. Please view the attached file.",file=discord.File('message.txt'))
 			os.remove('message.txt')
+            print(f"Sent context with length {details_string[channel_id]} as file")
 		else:
 			await ctx.respond(msg)
 			print(f"Sent context with length {len(msg)}")
@@ -160,9 +161,9 @@ async def combat_drill(ctx, target_has_status:
 	
 	kinetic_total = sum(kinetic)
 	energy_total = sum(energy)
-	bonus_total = sum(bonus)
+	bonus_total = sum(bonus)+bonus_flat
 	
-	full_total = kinetic_total + energy_total + bonus_total + bonus_flat
+	full_total = kinetic_total + energy_total + bonus_total
 	
 	debug("--- Totals ---", channel_id)
 	debug(f"Kinetic damage: {kinetic_total}", channel_id)
