@@ -172,7 +172,7 @@ async def combat_drill(ctx,
 	debug(f"Heat generated: {heat}", channel_id)
 	debug(f"Full damage: {full_total}", channel_id)
 	
-	message = f"**Combat Drill**\n🎯 Crit: **{yn(crit)}**\n💫 Status Effect: **{yn(target_has_status)}**\n🎲 Initial Bonus: **{bonus_dice}d6 + {bonus_flat}**\n\n⚔️ Kinetic: **{str(kinetic_total)}** `{str(kinetic)}`\n⚡ Energy: **{str(energy_total)}** `{str(energy)}`\n🎲 Bonus: **{str(bonus_total)}** `{str(bonus)}`\n🔥 Heat taken: **{str(heat)}**\n\n**Total damage: {str(full_total)}**"
+	message = f"**__Combat Drill__**\n🎯 Crit: **{yn(crit)}**\n💫 Status Effect: **{yn(target_has_status)}**\n🎲 Initial Bonus: **{bonus_dice}d6 + {bonus_flat}**\n\n⚔️ Kinetic: **{str(kinetic_total)}** `{str(kinetic)}`\n⚡ Energy: **{str(energy_total)}** `{str(energy)}`\n🎲 Bonus: **{str(bonus_total)}** `{str(bonus)}`\n🔥 Heat taken: **{str(heat)}**\n\n**Total damage: {str(full_total)}**"
 	sent_message = await ctx.respond(message)
 	sent_message = await sent_message.original_response()
 	
