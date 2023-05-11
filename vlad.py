@@ -41,19 +41,19 @@ async def on_ready():
 	print(f"{bot.user} is ready and online!")
 
 @bot.command(description="Traces all dice rolls for the last Combat Drill roll in this channel")
-async def context(ctx):
+async def trace(ctx):
 	channel_id = ctx.channel.id
 	if channel_id in details_string:
-		msg = f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\n```v\n{details_string[channel_id]}```"
+		msg = f"Trace for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\n```v\n{details_string[channel_id]}```"
 		if len(msg) > 2000:
 			with open("message.txt","w") as file:
 				file.write(details_string[channel_id])
-			await ctx.respond(f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send. Please view the attached file.",file=discord.File('message.txt'))
+			await ctx.respond(f"Trace for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send. Please view the attached file.",file=discord.File('message.txt'))
 			os.remove('message.txt')
-			print(f"Sent context with length {len(details_string[channel_id])} as file")
+			print(f"Sent trace with length {len(details_string[channel_id])} as file")
 		else:
 			await ctx.respond(msg)
-			print(f"Sent context with length {len(msg)}")
+			print(f"Sent trace with length {len(msg)}")
 	else:
 		await ctx.respond(f"No Combat Drill rolls recorded in this channel since <t:{boot_time}:R>.",ephemeral=True)
 
