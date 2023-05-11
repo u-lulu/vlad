@@ -40,6 +40,18 @@ async def on_ready():
 	boot_time = int(time.time())
 	print(f"{bot.user} is ready and online!")
 
+@bot.command(description="Shuts down the bot. Will not work unless you own the bot.")
+async def kill(ctx):
+	if ctx.author.id == ownerid:
+		print(f"Recieved valid kill request ({ctx.author.id})")
+		await ctx.respond(f"Shutting down.")
+		print("Shutting down...")
+		await bot.close()
+	else:
+		print(f"Refused invalud kill request ({ctx.author.id})")
+		await ctx.respond(f"Only <@{ownerid}> may use this command.",ephemeral=True)
+		
+
 @bot.command(description="Traces all dice rolls for the last Combat Drill roll in this channel")
 async def trace(ctx):
 	channel_id = ctx.channel.id
