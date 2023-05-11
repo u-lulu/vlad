@@ -48,7 +48,7 @@ async def context(ctx):
 		if len(msg) > 2000:
 			with open("message.txt","w") as file:
 				file.write(details_string[channel_id])
-			await ctx.respond(f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send as a message. Please view the attached file.",file=discord.File('message.txt'))
+			await ctx.respond(f"Context for Combat Drill roll performed <t:{last_drill_time[channel_id]}:R>: {last_drill_message[channel_id]}\nThe message is too long to send. Please view the attached file.",file=discord.File('message.txt'))
 			os.remove('message.txt')
 		else:
 			await ctx.respond(msg)
@@ -68,9 +68,9 @@ async def combat_drill(ctx, target_has_status:
 	channel_id = ctx.channel.id
 	details_string[channel_id] = ""
 	
-	kinetic = list_of_d6(6) if crit else list_of_d6(3)
-	energy = list_of_d6(2) if crit else list_of_d6(1)
-	bonus = list_of_d6(bonus_dice * 2) if crit else list_of_d6(bonus_dice)
+	kinetic = list_of_d6(6 if crit else 3)
+	energy = list_of_d6(2 if crit else 1)
+	bonus = list_of_d6(bonus_dice * (2 if crit else 1))
 	
 	debug("--- Initial dice results ---", channel_id)
 	debug(f"Kinetic: {kinetic}", channel_id)
