@@ -75,8 +75,9 @@ async def combat_drill(ctx,
 	crit: discord.Option(bool, "Mark TRUE if the roll to attack was a critical hit."), 
 	bonus_dice: discord.Option(int, "The amount of bonus dice applied to the attack roll *before* rolling.", required=False, default=0), 
 	bonus_flat: discord.Option(int,"Flat bonus damage applied to the attack roll *before* rolling.",required=False, default=0)):
-	if bonus_dice > 10:
-		await ctx.respond("☢️ Please roll at most 10 bonus dice.",ephemeral=True)
+	bonus_limt = 20
+	if bonus_dice > bonus_limt:
+		await ctx.respond(f"☢️ Please roll at most {bonus_limt} bonus dice.",ephemeral=True)
 		print(f"Refused roll request with {bonus_dice} bonus dice")
 		return
 	channel_id = ctx.channel.id
